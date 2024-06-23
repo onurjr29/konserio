@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert Events</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Upcoming Concerts and Events</h1>
+        <div class="list-group">
+            <% concerts.forEach(concert => { %>
+                <div class="list-group-item">
+                    <h5><%= concert.etkinlik %></h5>
+                    <p><strong>Location:</strong> <%= concert.location %></p>
+                    <p><strong>Dates:</strong> <%= concert.dates.join(', ') %></p>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

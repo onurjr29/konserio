@@ -48,7 +48,7 @@ const api = async (req, res) => {
         const match = content.match(jsonpCallbackRegex);
 
         if (match && match[1]) {
-            const jsonData = JSON.parse(match[1]);
+            const jsonData = JSON.parse(match[1]); // 
             const events = jsonData.response.docs; // Etkinliklerin olduğu kısmı al
             await browser.close();
             

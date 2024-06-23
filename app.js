@@ -25,6 +25,17 @@ app.get('/bubilet', async (req, res) => {
     }
 });
 
+app.get('/bugece', async (req, res) => {
+    try {
+        const response = await axios.get('https://barac.bugece.co/v1/event/list?country=298795&city=&category=&start=&end=&venue=&search=&pageSize=1000&sortBy=popularity&sortDir=desc&section=&sectionKey=&relatedEvent=&artist=&promoter=&page=1');
+        const etkinlikler = response.data;
+        res.json(etkinlikler);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Bir hata oluştu.');
+    }
+})
+
 // Ana route
 app.get('/biletix', async (req, res) => {
     try {
@@ -61,6 +72,38 @@ app.get('/biletix', async (req, res) => {
         res.status(500).send('Bir hata oluştu');
     }
 });
+
+app.get('/mongo', async (req, res) => {    
+    try {
+        const MongoClient = require('mongodb').MongoClient;
+        const url = "mongodb://localhost:27017/mydb";
+        MongoClient.connect(url).then((err, db) => {
+            if (err) throw err;
+            console.log("Veritabanına bağlandı!");
+            db.close();
+        })
+    res.send('MongoDB bağlantısı başarılı');
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Bir hata oluştu');
+    }
+})
+
+const concerts = [
+    { etkinlik: 'Kenan Doğulu Konseri', location: 'Muğla, Halikarnassos', dates: ['June 16'] },
+    { etkinlik: 'Motive Konseri', location: 'Multiple venues', dates: ['June 20', 'June 21', 'June 22', 'June 23'] },
+    { etkinlik: 'Serdar Ortaç Konseri', location: 'Multiple venues', dates: ['June 21', 'August 21', 'June 24', 'June 26', 'June 30'] },
+    { etkinlik: 'An Epic Symphony & Sibel Can - Hüsnü Şenlendirici', location: 'Multiple venues', dates: ['June 22', 'August 14', 'August 19'] },
+    { etkinlik: 'Buena Vista All Stars', location: 'İzmir, Çeşme Açık Hava Tiyatrosu', dates: ['June 22'] },
+    { etkinlik: 'Ogün Sanlısoy', location: 'İstanbul Avrupa, Blind İstanbul', dates: ['June 22'] },
+    { etkinlik: 'Can Ozan', location: 'Multiple venues', dates: ['June 23', 'July 19'] },
+    { etkinlik: 'Deep Purple', location: 'İstanbul Avrupa, KüçükÇiftlik Park', dates: ['June 25'] },
+    { etkinlik: 'Emre Aydın', location: 'Multiple venues', dates: ['June 28', 'June 29', 'July 20'] },
+];
+
+app.get('/biletinial', (req, res) => {
+    res.render('biletinial', { concerts });
+})
 
 app.listen(port, () => {
     console.log(`Sunucu http://localhost:${port} adresinde çalışıyor.`);
